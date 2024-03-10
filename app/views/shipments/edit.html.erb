@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>Update Shipment</h1>
+  <%= form_with(model: @shipment, local: true, html: { class: "form-control" }) do |form| %>
+    <%= form.label :source %>
+    <%= form.text_field :source, class: "form-control" %><br>
+
+    <%= form.label :target %>
+    <%= form.text_field :target, class: "form-control" %><br>
+
+    <%= form.label :item %>
+    <%= form.text_field :item, class: "form-control" %><br>
+
+    <div class="mb-3">
+        <%= form.label :status, "Status", class: "form-label" %>
+        <%= form.select :status, options_for_select([['Not Started', 'not_started'], ['In Progress', 'in_progress'], ['Delivered', 'delivered']], @shipment.status), { prompt: 'Select Status' }, class: "form-select" %>
+    </div>
+
+    <% if current_user.role == 'customer' %>
+      <div class="mb-3">
+        <%= form.label :delivery_partner_id, "Delivery Partner", class: "form-label" %>
+        <%= form.collection_select :delivery_partner_id, User.where(role: 'delivery_partner'), :id, :full_name, { prompt: 'Select Delivery Partner' }, class: "form-select" %>
+      </div>
+    <% end %>
+
+    <%= form.submit "Save", class: "btn btn-primary" %> |
+    <%= link_to 'Back', shipments_path, class: 'btn btn-secondary' %>
+  <% end %>
+</div>

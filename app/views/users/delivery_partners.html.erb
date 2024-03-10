@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>DELIVERY PARTNERS</h1>
+
+  <% if current_user.admin? %>
+    <%= link_to "Onboard", onboard_path, class: "btn btn-primary mb-3" %>
+  <% end %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Actions</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <% if @delivery_partners.present? %>
+        <% @delivery_partners.each do |partner| %>
+          <% if partner.deactivated? %>
+            <tr class="table-danger">
+              <td><%= partner.full_name %></td>
+              <td><%= partner.email %></td>
+              <td>
+                <!-- No action buttons for offboarded delivery partners -->
+              </td>
+            </tr>
+          <% else %>
+            <tr>
+              <td><%= partner.full_name %></td>
+              <td><%= partner.email %></td>
+              <td>
+                <% if current_user.admin? %> 
+                  <%= button_to "Offboard", offboard_customer_path(partner), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to offboard this delivery partner?" } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="3">No delivery partners found.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

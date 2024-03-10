@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>CUSTOMERS</h1>
+
+  <% if current_user.admin? %>
+    <%= link_to "Onboard", onboard_path, class: "btn btn-primary mb-3" %>
+  <% end %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <% if customer.deactivated? %>
+          <tr class="table-danger">
+            <td><%= customer.full_name %></td>
+            <td><%= customer.email %></td>
+            <td>
+              <!-- No action buttons for offboarded customers -->
+            </td>
+          </tr>
+        <% else %>
+          <tr>
+            <td><%= customer.full_name %></td>
+            <td><%= customer.email %></td>
+            <td>
+              <% if current_user.admin? %> 
+                <%= button_to "Offboard", offboard_customer_path(customer), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to offboard this customer?" } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Shipment Details</h1>
+  <div class="card">
+    <div class="card-body">
+      <p class="card-text"><strong>Source:</strong> <%= @shipment.source %></p>
+      <p class="card-text"><strong>Target:</strong> <%= @shipment.target %></p>
+      <p class="card-text"><strong>Item:</strong> <%= @shipment.item %></p>
+      <p class="card-text"><strong>Status:</strong> <%= @shipment.status %></p>
+      <p class="card-text"><strong>Delivery Partner:</strong> <%= @shipment.delivery_partner.email if @shipment.delivery_partner %></p>
+
+      <%= link_to 'Edit', edit_shipment_path(@shipment), class: 'btn btn-primary' %> |
+      <%= link_to 'Back', shipments_path, class: 'btn btn-secondary' %> 
+    </div>
+  </div>
+</div>

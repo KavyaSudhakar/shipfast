@@ -1,0 +1,33 @@
+<div class="container">
+  <h1>New Shipment</h1>
+  <%= form_with(model: @shipment, local: true) do |form| %>
+    <div class="mb-3">
+      <%= form.label :source, "Source Location", class: "form-label" %>
+      <%= form.text_field :source, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :target, "Target Location", class: "form-label" %>
+      <%= form.text_field :target, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :item, class: "form-label" %>
+      <%= form.text_field :item, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :status, "Status", class: "form-label" %>
+        <%= form.select :status, options_for_select([['Not Started', 'not_started'], ['In Progress', 'in_progress'], ['Delivered', 'delivered']], @shipment.status), { prompt: 'Select Status' }, class: "form-select" %>
+    </div>
+
+    <% if current_user.role == 'customer' %>
+        <div class="mb-3">
+        <%= form.label :delivery_partner_id, "Delivery Partner", class: "form-label" %>
+        <%= form.collection_select :delivery_partner_id, User.where(role: 'delivery_partner'), :id, :full_name, { prompt: 'Select Delivery Partner' }, class: "form-select" %>
+        </div>
+    <% end %>
+
+   <%= form.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

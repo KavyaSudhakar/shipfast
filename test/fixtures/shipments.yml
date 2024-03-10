@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  source_location: MyString
+  target_location: MyString
+  item: MyString
+  status: 1
+  customer: one
+  delivery_partner: one
+
+two:
+  source_location: MyString
+  target_location: MyString
+  item: MyString
+  status: 1
+  customer: two
+  delivery_partner: two
