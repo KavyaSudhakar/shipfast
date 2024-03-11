@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :set_customer, only: [:offboard]
+    before_action :set_user, only: [:offboard]
    
     
     def customers
@@ -33,19 +33,26 @@ class UsersController < ApplicationController
     end
     
     def offboard
-      if current_user.admin? && @user.present? && @user.deactivated == false
-        @user.update(deactivated: true)
-        flash[:success] = "User offboarded successfully."
+      if current_user.admin? && @user.present? && !@user.deactivated?
+        if @user.update(deactivated: true)
+          flash[:success] = "User offboarded successfully."
+        else
+          flash[:error] = "Failed to offboard user."
+        end
       else
         flash[:error] = "You are not authorized to offboard this user."
       end
       redirect_back fallback_location: root_path
     end
-  
+
     private
   
-    def set_customer
-      @customer = User.find(params[:id])
+    def set_user
+      @user = User.find_by(id: params[:id])
+      unless @user
+        flash[:error] = "User not found."
+        redirect_to root_path
+      end
     end
   
     def user_params
